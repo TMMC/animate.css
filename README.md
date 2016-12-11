@@ -1,7 +1,20 @@
-#Animate.css
+#Animate.css [![GitHub release](https://img.shields.io/github/release/daneden/animate.css.svg)](https://github.com/daneden/animate.css/releases) [![Build Status](https://travis-ci.org/WarenGonzaga/animate.css.svg?branch=master)](https://travis-ci.org/WarenGonzaga/animate.css) [![devDependencies Status](https://david-dm.org/WarenGonzaga/animate.css/dev-status.svg)](https://david-dm.org/WarenGonzaga/animate.css?type=dev) [![chat](https://img.shields.io/badge/chat-gitter-green.svg)](https://gitter.im/animate-css/Lobby)
 *Just-add-water CSS animation*
 
 `animate.css` is a bunch of cool, fun, and cross-browser animations for you to use in your projects. Great for emphasis, home pages, sliders, and general just-add-water-awesomeness.
+
+## Installation
+
+To install via Bower, simply do the following:
+
+```bash
+$ bower install animate.css --save
+```
+or you can install via npm:
+
+```bash
+$ npm install animate.css --save
+```
 
 ##Basic Usage
 1. Include the stylesheet on your document's `<head>`
@@ -9,6 +22,12 @@
   ```html
   <head>
     <link rel="stylesheet" href="animate.min.css">
+  </head>
+  ```
+  or use the version hosted by [CDNJS](https://cdnjs.com/libraries/animate.css)
+  ```html
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   </head>
   ```
 2. Add the class `animated` to the element you want to animate.
@@ -21,6 +40,7 @@
   * `pulse`
   * `rubberBand`
   * `shake`
+  * `headShake`
   * `swing`
   * `tada`
   * `wobble`
@@ -96,12 +116,20 @@ Full example:
 <h1 class="animated infinite bounce">Example</h1>
 ```
 
+[Check out all the animations here!](https://daneden.github.io/animate.css/)
+
 ##Usage
 To use animate.css in your website, simply drop the stylesheet into your document's `<head>`, and add the class `animated` to an element, along with any of the animation names. That's it! You've got a CSS animated element. Super!
 
 ```html
 <head>
   <link rel="stylesheet" href="animate.min.css">
+</head>
+```
+or use the version hosted by [CDNJS](https://cdnjs.com/libraries/animate.css)
+```html
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 ```
 
@@ -123,9 +151,28 @@ http://api.jquery.com/one/
 $('#yourElement').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', doSomething);
 ```
 
-[View a video tutorial](https://www.youtube.com/watch?v=CBQGl6zokMs) on how to use Animate.css with jQuery here. 
+[View a video tutorial](https://www.youtube.com/watch?v=CBQGl6zokMs) on how to use Animate.css with jQuery here.
 
 **Note:** `jQuery.one()` is used when you want to execute the event handler at most *once*. More information [here](http://api.jquery.com/one/).
+
+You can also extend jQuery to add a function that does it all for you:
+
+```javascript
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+```
+
+And use it like this:
+
+```javascript
+$('#yourElement').animateCss('bounce');
+```
 
 You can change the duration of your animations, add a delay or change the number of times that it plays:
 
@@ -140,14 +187,14 @@ You can change the duration of your animations, add a delay or change the number
 *Note: be sure to replace "vendor" in the CSS with the applicable vendor prefixes (webkit, moz, etc)*
 
 ## Custom Builds
-Animate.css is powered by [Grunt](http://gruntjs.com), and you can create custom builds pretty easily. First of all, you’ll need Grunt and all other dependencies:
+Animate.css is powered by [gulp.js](http://gulpjs.com/), and you can create custom builds pretty easily. First of all, you’ll need Gulp and all other dependencies:
 
 ```sh
 $ cd path/to/animate.css/
 $ sudo npm install
 ```
 
-Next, run `grunt watch` to watch for changes and compile your custom builds. For example, if you want only some of the the “attention seekers”, simply edit the `animate-config.json` file to select only the animations you want to use.
+Next, run `gulp` to compile your custom builds. For example, if you want only some of the “attention seekers”, simply edit the `animate-config.json` file to select only the animations you want to use.
 
 ```javascript
 "attention_seekers": {
@@ -155,6 +202,7 @@ Next, run `grunt watch` to watch for changes and compile your custom builds. For
   "flash": false,
   "pulse": false,
   "shake": true,
+  "headShake": true,
   "swing": true,
   "tada": true,
   "wobble": true,
